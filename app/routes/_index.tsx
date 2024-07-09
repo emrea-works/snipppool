@@ -1,48 +1,33 @@
 import type { MetaFunction } from "@remix-run/node";
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import { getSnippets } from '~/models/snippets.server';
+
+export const loader = async () => {
+  return json({ snippets: await getSnippets() });
+};
+
+const ListSnippets = () => {
+  const { snippets } = useLoaderData<typeof loader>();
+  const paragraphs = <div>
+    {snippets.map((item) => (<p key={item.cat}>{item.snippet}</p>))}
+  </div>;
+  const code = <pre>{snippets.map((item) => (`${item.snippet}\n`))}</pre>;
+  return code; //paragraphs;
+};
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "sniPPPool" },
+    { name: "description", content: "A Raw Snippet Pool" },
   ];
 };
 
 export default function Index() {
   return (
     <div className="font-sans p-4">
-      <h1 className="text-3xl">Welcome to Remix</h1>
-      <ul className="list-disc mt-4 pl-6 space-y-2">
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/start/quickstart"
-            rel="noreferrer"
-          >
-            5m Quick Start
-          </a>
-        </li>
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/start/tutorial"
-            rel="noreferrer"
-          >
-            30m Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            className="text-blue-700 underline visited:text-purple-900"
-            target="_blank"
-            href="https://remix.run/docs"
-            rel="noreferrer"
-          >
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+      <h1 className="text-3xl">{"<<W'll have header>>"}</h1>
+      <ListSnippets />
     </div>
   );
 }
