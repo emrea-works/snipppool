@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Header } from '~/components/LayoutElements';
+import { stdSpace } from '~/settings';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getSnippets } from '~/models/snippets.server';
@@ -25,8 +27,8 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className="font-sans p-4">
-      <h1 className="text-3xl">{"<<W'll have header>>"}</h1>
+    <div className={`container mx-auto p-${stdSpace}`}>
+      <Header />
       <ListSnippets />
     </div>
   );
