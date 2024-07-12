@@ -1,6 +1,6 @@
 # sniPPPool
 
-Collection of most used snippets mostly in bash
+Repetitive snippets list mostly in bash.
 
 ## To Do
 
