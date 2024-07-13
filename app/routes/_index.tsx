@@ -15,22 +15,26 @@ export const loader = async () => {
 export function ListSnippets() {
   const { snippets } = useLoaderData<typeof loader>();
   // console.log(`---> snippets: ${JSON.stringify(snippets, null, 4)}`);
-  // @ts-ignore
-  const paragraphs = (
-    <div>
+  function handleClick(e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>) {
+    const target = e.target as HTMLElement;
+    console.log("e:", target.innerText);
+    navigator.clipboard.writeText(target.innerText);
+  }
+  return (
+    <table >
       {snippets.map((item: any) => (
-        <p key={item.cat}>{item.snippet}</p>
+        <tr key={item.id} className={`w-full font-mono text-xs`}>
+          <td>{item.id}{") "}</td>
+          <td onClick={(e)=>handleClick(e)}>{item.snippet}</td>
+          <td>
+            <span className="self-end">
+              {item.tag} {item.cat}
+            </span>
+          </td>
+        </tr>
       ))}
-    </div>
+    </table>
   );
-  const code = (
-    <pre
-      className={`bg-gray-900 text-gray-300 rounded-lg p-${stdSpace} text-xs leading-relaxed`}
-    >
-      {snippets.map((item: any) => `${item.snippet}\n`)}
-    </pre>
-  );
-  return code; //paragraphs;
 }
 /* -------------------------------------------------------------------------- */
 //* Insert Snippet */
@@ -57,7 +61,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export function InsertSnippet() {
-  const feWrapper = `my-${stdSpace-2}`;
+  const feWrapper = `my-${stdSpace - 2}`;
   const fElement = `rounded-md p-1 bg-gray-100 font-mono w-full `;
   return (
     <Form method="post" className="my-3">
@@ -99,8 +103,9 @@ export function InsertSnippet() {
       <div className="w-full">
         <button
           type="submit"
-          className=
-          {`my-${stdSpace-2} w-full bg-gray-700 text-gray-100 px-5 py-2 rounded bg-primary`}
+          className={`my-${
+            stdSpace - 2
+          } w-full bg-gray-700 text-gray-100 px-5 py-2 rounded bg-primary`}
         >
           Save
         </button>
